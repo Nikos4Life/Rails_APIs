@@ -1,8 +1,9 @@
 class Api::V1::TasksController < ApplicationController
 	before_action :user_exists
 	def index
-        tasks = @user.tasks
-        render json: tasks
+        completed_tasks = @user.tasks.where(completed: true)
+        pending_tasks = @user.tasks.where(completed: false)
+        render json: { completed_tasks: completed_tasks, pending_tasks: pending_tasks}
     end
 
     def create
